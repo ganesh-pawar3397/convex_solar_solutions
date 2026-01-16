@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X, Sun } from "lucide-react";
+import logo from "@/assets/logo.png";
 
 const navLinks = [
   { href: "#about", label: "About" },
@@ -35,7 +36,7 @@ const Header = () => {
           <a href="#" className="flex items-center gap-3">
             <div className="h-14 w-14 rounded-full bg-white/90 backdrop-blur-sm shadow-md flex items-center justify-center p-1 overflow-hidden">
               <img
-                src="/src/assets/logo.png"
+                src={logo}
                 alt="Convex Solar Solutions"
                 className="h-full w-full object-contain"
               />
