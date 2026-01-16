@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /convex_ad
+Disallow: /convex_ad/*
+
+Sitemap: https://convexsolar.com/sitemap.xml
