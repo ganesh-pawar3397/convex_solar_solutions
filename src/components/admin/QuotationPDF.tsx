@@ -4,9 +4,11 @@ import {
     Text,
     View,
     StyleSheet,
+    Image,
     Font,
 } from "@react-pdf/renderer";
 import { QuotationFormValues } from "./QuotationForm";
+import logo from "@/assets/logo.png";
 
 // Register a clean font (optional, using default for now)
 // Font.register({ family: 'Roboto', src: '...' });
@@ -16,29 +18,45 @@ const styles = StyleSheet.create({
         padding: 40,
         fontFamily: "Helvetica",
         fontSize: 10,
+        paddingBottom: 80, // Space for footer
+        color: "#1e293b",
     },
     header: {
+        flexDirection: "row",
+        alignItems: "center",
         marginBottom: 20,
         borderBottomWidth: 2,
         borderBottomColor: "#f97316", // Orange accent
         paddingBottom: 15,
+        gap: 15,
+    },
+    logo: {
+        width: 50,
+        height: 50,
+        objectFit: "contain",
+    },
+    headerText: {
+        flexDirection: "column",
     },
     companyName: {
-        fontSize: 22,
+        fontSize: 20,
         fontWeight: "bold",
         color: "#1e293b",
+        textTransform: "uppercase",
     },
     companyTagline: {
-        fontSize: 9,
+        fontSize: 10,
         color: "#64748b",
-        marginTop: 2,
+        fontStyle: "italic",
     },
     title: {
-        fontSize: 16,
+        fontSize: 18,
         fontWeight: "bold",
         textAlign: "center",
-        marginVertical: 15,
+        marginBottom: 20,
         color: "#0f172a",
+        textTransform: "uppercase",
+        letterSpacing: 1,
     },
     metaRow: {
         flexDirection: "row",
@@ -47,9 +65,11 @@ const styles = StyleSheet.create({
     },
     metaBox: {
         width: "48%",
-        padding: 10,
+        padding: 12,
         backgroundColor: "#f8fafc",
         borderRadius: 4,
+        borderWidth: 1,
+        borderColor: "#e2e8f0",
     },
     sectionTitle: {
         fontSize: 11,
@@ -61,30 +81,33 @@ const styles = StyleSheet.create({
     text: {
         fontSize: 10,
         color: "#475569",
-        marginBottom: 3,
+        marginBottom: 4,
+        lineHeight: 1.4,
     },
     table: {
         width: "100%",
-        marginVertical: 15,
+        marginBottom: 20,
+        borderRadius: 4,
+        overflow: "hidden",
     },
     tableHeader: {
         flexDirection: "row",
         backgroundColor: "#1e293b",
         color: "#ffffff",
-        padding: 8,
+        padding: 10,
     },
     tableRow: {
         flexDirection: "row",
         borderBottomWidth: 1,
         borderBottomColor: "#e2e8f0",
-        padding: 8,
+        padding: 10,
     },
     tableRowAlt: {
         flexDirection: "row",
         backgroundColor: "#f8fafc",
         borderBottomWidth: 1,
         borderBottomColor: "#e2e8f0",
-        padding: 8,
+        padding: 10,
     },
     col1: {
         width: "60%",
@@ -96,53 +119,77 @@ const styles = StyleSheet.create({
     totalRow: {
         flexDirection: "row",
         backgroundColor: "#f97316",
-        padding: 10,
-        marginTop: 5,
+        padding: 12,
     },
     totalText: {
         color: "#ffffff",
         fontWeight: "bold",
         fontSize: 12,
+        textTransform: "uppercase",
     },
     terms: {
-        marginTop: 20,
-        padding: 10,
+        marginTop: 10,
+        padding: 15,
         backgroundColor: "#f8fafc",
         borderRadius: 4,
+        borderWidth: 1,
+        borderColor: "#e2e8f0",
     },
     termsTitle: {
         fontSize: 10,
         fontWeight: "bold",
-        marginBottom: 5,
+        marginBottom: 8,
+        color: "#334155",
     },
     termItem: {
-        fontSize: 8,
+        fontSize: 9,
         color: "#64748b",
-        marginBottom: 2,
+        marginBottom: 4,
     },
-    footer: {
-        position: "absolute",
-        bottom: 40,
-        left: 40,
-        right: 40,
-        borderTopWidth: 1,
-        borderTopColor: "#e2e8f0",
-        paddingTop: 10,
+    signatureSection: {
+        marginTop: 40,
         flexDirection: "row",
         justifyContent: "space-between",
     },
     signatureBox: {
-        width: "45%",
+        width: "40%",
+        alignItems: "center",
     },
     signatureLine: {
+        width: "100%",
         borderBottomWidth: 1,
         borderBottomColor: "#94a3b8",
-        marginBottom: 5,
-        marginTop: 30,
+        marginBottom: 8,
+        height: 40, // Space for signature
     },
     signatureLabel: {
-        fontSize: 8,
+        fontSize: 9,
         color: "#64748b",
+        textAlign: "center",
+    },
+    footer: {
+        position: "absolute",
+        bottom: 30,
+        left: 40,
+        right: 40,
+        borderTopWidth: 1,
+        borderTopColor: "#e2e8f0",
+        paddingTop: 15,
+        alignItems: "center",
+    },
+    footerRow: {
+        flexDirection: "row",
+        justifyContent: "center",
+        gap: 20,
+        marginBottom: 5,
+    },
+    footerText: {
+        fontSize: 8,
+        color: "#94a3b8",
+    },
+    footerHighlight: {
+        color: "#f97316",
+        fontWeight: "bold",
     },
 });
 
@@ -157,6 +204,10 @@ const QuotationPDF = ({ data, quotationNumber }: QuotationPDFProps) => {
         month: "long",
         year: "numeric",
     });
+
+    const businessPhone = import.meta.env.VITE_BUSINESS_PHONE || "+91 98765 43210";
+    const businessEmail = import.meta.env.VITE_BUSINESS_EMAIL || "info@convexsolar.com";
+    const businessAddress = import.meta.env.VITE_BUSINESS_ADDRESS || "123 Green Energy Park, Andheri East, Mumbai";
 
     const panels = Number(data.panelPrice) || 0;
     const inverter = Number(data.inverterPrice) || 0;
@@ -176,47 +227,56 @@ const QuotationPDF = ({ data, quotationNumber }: QuotationPDFProps) => {
             <Page size="A4" style={styles.page}>
                 {/* Header */}
                 <View style={styles.header}>
-                    <Text style={styles.companyName}>Convex Solar Solutions</Text>
-                    <Text style={styles.companyTagline}>
-                        Powering Homes with Clean Energy
-                    </Text>
+                    <Image src={logo} style={styles.logo} />
+                    <View style={styles.headerText}>
+                        <Text style={styles.companyName}>Convex Solar Solutions</Text>
+                        <Text style={styles.companyTagline}>
+                            Illuminate your energetic life
+                        </Text>
+                    </View>
                 </View>
 
                 {/* Title */}
-                <Text style={styles.title}>SOLAR ROOFTOP QUOTATION</Text>
+                <Text style={styles.title}>Quotation For Solar Rooftop System</Text>
 
                 {/* Meta Info */}
                 <View style={styles.metaRow}>
                     <View style={styles.metaBox}>
-                        <Text style={styles.sectionTitle}>Quotation Details</Text>
-                        <Text style={styles.text}>Number: {quotationNumber}</Text>
-                        <Text style={styles.text}>Date: {today}</Text>
-                        <Text style={styles.text}>Valid Until: 30 days from issue</Text>
+                        <Text style={styles.sectionTitle}>To</Text>
+                        <Text style={[styles.text, { fontWeight: 'bold', fontSize: 11 }]}>{data.customerName}</Text>
+                        <Text style={styles.text}>{data.customerAddress}</Text>
+                        <Text style={styles.text}>{data.customerPhone}</Text>
                     </View>
                     <View style={styles.metaBox}>
-                        <Text style={styles.sectionTitle}>Customer Details</Text>
-                        <Text style={styles.text}>{data.customerName}</Text>
-                        <Text style={styles.text}>{data.customerAddress}</Text>
-                        <Text style={styles.text}>Ph: {data.customerPhone}</Text>
+                        <Text style={styles.sectionTitle}>Quotation Details</Text>
+                        <Text style={styles.text}>Quotation No: <Text style={{ fontWeight: 'bold' }}>{quotationNumber}</Text></Text>
+                        <Text style={styles.text}>Date: {today}</Text>
+                        <Text style={styles.text}>Grid Type: {data.systemType || "On-Grid"}</Text>
+                        <Text style={styles.text}>System Size: {data.systemSize} kW</Text>
                     </View>
                 </View>
 
                 {/* Project Details */}
-                <View style={{ marginBottom: 15 }}>
-                    <Text style={styles.sectionTitle}>Project Specifications</Text>
-                    <Text style={styles.text}>System Capacity: {data.systemSize} kW</Text>
-                    <Text style={styles.text}>Roof Type: {data.roofType}</Text>
-                    <Text style={styles.text}>Number of Panels: {data.panelCount}</Text>
+                <View style={{ marginBottom: 20 }}>
+                    <Text style={styles.sectionTitle}>Technical Specifications</Text>
+                    <View style={{ flexDirection: 'row', gap: 10 }}>
+                        <Text style={[styles.text, { backgroundColor: '#f0f9ff', padding: 5, borderRadius: 4 }]}>
+                            Panels: {data.panelCount} Nos
+                        </Text>
+                        <Text style={[styles.text, { backgroundColor: '#f0f9ff', padding: 5, borderRadius: 4 }]}>
+                            Roof Type: {data.roofType}
+                        </Text>
+                    </View>
                 </View>
 
                 {/* Cost Breakdown Table */}
                 <View style={styles.table}>
                     <View style={styles.tableHeader}>
-                        <Text style={[styles.col1, { color: "#fff" }]}>Description</Text>
-                        <Text style={[styles.col2, { color: "#fff" }]}>Amount</Text>
+                        <Text style={[styles.col1, { color: "#fff", fontWeight: "bold" }]}>Description</Text>
+                        <Text style={[styles.col2, { color: "#fff", fontWeight: "bold" }]}>Amount (₹)</Text>
                     </View>
                     <View style={styles.tableRow}>
-                        <Text style={styles.col1}>Solar Panels ({data.panelCount} nos)</Text>
+                        <Text style={styles.col1}>Solar PV Modules (Panels)</Text>
                         <Text style={styles.col2}>{formatCurrency(panels)}</Text>
                     </View>
                     <View style={styles.tableRowAlt}>
@@ -224,45 +284,47 @@ const QuotationPDF = ({ data, quotationNumber }: QuotationPDFProps) => {
                         <Text style={styles.col2}>{formatCurrency(inverter)}</Text>
                     </View>
                     <View style={styles.tableRow}>
-                        <Text style={styles.col1}>Mounting Structure</Text>
+                        <Text style={styles.col1}>Module Mounting Structure</Text>
                         <Text style={styles.col2}>{formatCurrency(structure)}</Text>
                     </View>
                     <View style={styles.tableRowAlt}>
-                        <Text style={styles.col1}>Installation & Wiring</Text>
+                        <Text style={styles.col1}>Installation, Testing & Commissioning</Text>
                         <Text style={styles.col2}>{formatCurrency(installation)}</Text>
                     </View>
                     <View style={styles.tableRow}>
-                        <Text style={styles.col1}>Net Metering & Approval</Text>
+                        <Text style={styles.col1}>Net Metering & Official Approvals</Text>
                         <Text style={styles.col2}>{formatCurrency(metering)}</Text>
                     </View>
-                    <View style={styles.tableRowAlt}>
+
+                    <View style={[styles.tableRowAlt, { borderTopWidth: 2, borderTopColor: '#cbd5e1' }]}>
                         <Text style={[styles.col1, { fontWeight: "bold" }]}>Subtotal</Text>
                         <Text style={[styles.col2, { fontWeight: "bold" }]}>
                             {formatCurrency(subtotal)}
                         </Text>
                     </View>
+
                     {subsidy > 0 && (
                         <View style={styles.tableRow}>
                             <Text style={[styles.col1, { color: "#16a34a" }]}>
-                                Government Subsidy (-)
+                                Less: PM Surya Ghar Subsidy
                             </Text>
                             <Text style={[styles.col2, { color: "#16a34a" }]}>
-                                {formatCurrency(subsidy)}
+                                - {formatCurrency(subsidy)}
                             </Text>
                         </View>
                     )}
                     {discount > 0 && (
                         <View style={styles.tableRowAlt}>
                             <Text style={[styles.col1, { color: "#2563eb" }]}>
-                                Additional Discount (-)
+                                Less: Special Discount
                             </Text>
                             <Text style={[styles.col2, { color: "#2563eb" }]}>
-                                {formatCurrency(discount)}
+                                - {formatCurrency(discount)}
                             </Text>
                         </View>
                     )}
                     <View style={styles.totalRow}>
-                        <Text style={[styles.col1, styles.totalText]}>TOTAL PAYABLE</Text>
+                        <Text style={[styles.col1, styles.totalText]}>GRAND TOTAL</Text>
                         <Text style={[styles.col2, styles.totalText]}>
                             {formatCurrency(total)}
                         </Text>
@@ -272,35 +334,44 @@ const QuotationPDF = ({ data, quotationNumber }: QuotationPDFProps) => {
                 {/* Terms */}
                 <View style={styles.terms}>
                     <Text style={styles.termsTitle}>Terms & Conditions</Text>
-                    <Text style={styles.termItem}>
-                        1. Payment: 50% advance, 50% on installation completion.
-                    </Text>
-                    <Text style={styles.termItem}>
-                        2. Warranty: 25 years on panels, 5 years on inverter.
-                    </Text>
-                    <Text style={styles.termItem}>
-                        3. Installation timeline: 7-10 working days after advance.
-                    </Text>
-                    <Text style={styles.termItem}>
-                        4. Prices are subject to change without prior notice.
-                    </Text>
-                    <Text style={styles.termItem}>
-                        5. Subsidy disbursement subject to government approval.
-                    </Text>
+                    <Text style={styles.termItem}>• Payment: 50% advance along with work order, balance 50% after installation.</Text>
+                    <Text style={styles.termItem}>• Warranty: 25 years performance warranty on Solar Panels.</Text>
+                    <Text style={styles.termItem}>• Warranty: 5-year manufacturer warranty on Inverter.</Text>
+                    <Text style={styles.termItem}>• Installation timeline is subject to site clearance and approvals.</Text>
+                    <Text style={styles.termItem}>• Prices are valid for 15 days from the date of quotation.</Text>
                 </View>
 
-                {/* Footer / Signature */}
-                <View style={styles.footer}>
+                {/* Signatures */}
+                <View style={styles.signatureSection}>
                     <View style={styles.signatureBox}>
                         <View style={styles.signatureLine} />
-                        <Text style={styles.signatureLabel}>Customer Signature</Text>
+                        <Text style={styles.signatureLabel}>Customer Acceptance</Text>
                     </View>
                     <View style={styles.signatureBox}>
                         <View style={styles.signatureLine} />
-                        <Text style={styles.signatureLabel}>
-                            For Convex Solar Solutions
+                        <Text style={styles.signatureLabel}>Authorized Signatory</Text>
+                        <Text style={[styles.signatureLabel, { fontWeight: 'bold', marginTop: 2 }]}>Convex Solar Solutions</Text>
+                    </View>
+                </View>
+
+                {/* Footer */}
+                <View style={styles.footer}>
+                    <View style={styles.footerRow}>
+                        <Text style={styles.footerText}>
+                            Web: <Text style={{ color: '#000' }}>www.convexsolar.in</Text>
+                        </Text>
+                        <Text style={styles.footerText}>|</Text>
+                        <Text style={styles.footerText}>
+                            Email: <Text style={{ color: '#000' }}>{businessEmail}</Text>
+                        </Text>
+                        <Text style={styles.footerText}>|</Text>
+                        <Text style={styles.footerText}>
+                            Phone: <Text style={{ color: '#000' }}>{businessPhone}</Text>
                         </Text>
                     </View>
+                    <Text style={[styles.footerText, { textAlign: 'center' }]}>
+                        {businessAddress}
+                    </Text>
                 </View>
             </Page>
         </Document>
