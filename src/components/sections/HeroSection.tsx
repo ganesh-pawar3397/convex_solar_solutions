@@ -21,7 +21,7 @@ const HeroSection = () => {
       <div className="absolute inset-0 bg-gradient-to-r from-primary/90 via-primary/75 to-primary/50" />
 
       {/* Content */}
-      <div className="relative z-10 container-custom px-4 py-20 text-center lg:text-left">
+      <div className="relative z-10 container-custom py-20 text-center lg:text-left">
         <div className="max-w-3xl mx-auto lg:mx-0">
           {/* Heading */}
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground leading-tight mb-6 animate-fade-in">

@@ -1,4 +1,5 @@
-import { Phone, MessageCircle } from "lucide-react";
+import { Phone } from "lucide-react";
+import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 
 const FloatingButtons = () => {
     const businessPhone = import.meta.env.VITE_BUSINESS_PHONE || "919876543210";
@@ -19,10 +20,10 @@ const FloatingButtons = () => {
             {/* WhatsApp Button */}
             <button
                 onClick={handleWhatsApp}
-                className="group flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-lg transition-all duration-300 hover:scale-110"
+                className="group flex items-center gap-2 bg-[#25D366] hover:bg-[#128C7E] text-white p-4 rounded-full shadow-lg transition-all duration-300 hover:scale-110"
                 aria-label="Chat on WhatsApp"
             >
-                <MessageCircle className="h-6 w-6" />
+                <WhatsAppIcon className="h-6 w-6" />
                 <span className="hidden group-hover:inline-block text-sm font-medium pr-2 whitespace-nowrap">
                     Chat Now
                 </span>

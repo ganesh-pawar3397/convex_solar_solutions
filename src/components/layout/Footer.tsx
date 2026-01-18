@@ -1,4 +1,5 @@
 import { Sun, Facebook, Instagram, Linkedin, Twitter, Mail, Phone, MapPin } from "lucide-react";
+import logo from "@/assets/logo.png";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -12,7 +13,7 @@ const Footer = () => {
             <div className="flex items-center gap-3 mb-6">
               <div className="h-12 w-12 rounded-full bg-white/90 flex items-center justify-center p-1 overflow-hidden">
                 <img
-                  src="/src/assets/logo.png"
+                  src={logo}
                   alt="Convex Solar Solutions"
                   className="h-full w-full object-contain"
                 />

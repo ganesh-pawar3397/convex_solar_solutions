@@ -30,7 +30,7 @@ const Header = () => {
         : "bg-transparent py-5"
         }`}
     >
-      <div className="container-custom px-4 sm:px-6 lg:px-8">
+      <div className="container-custom">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <a href="#" className="flex items-center gap-3">

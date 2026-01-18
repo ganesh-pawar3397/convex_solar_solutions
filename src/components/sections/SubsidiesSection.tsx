@@ -116,13 +116,20 @@ const SubsidiesSection = () => {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {steps.map((step, index) => (
               <div key={index} className="relative">
-                <div className="card-elevated p-6 h-full">
+                <div className="card-elevated p-6 h-full flex flex-col">
+                  {/* Number Badge */}
                   <div className="w-10 h-10 bg-primary text-primary-foreground rounded-full flex items-center justify-center font-bold mb-4">
                     {index + 1}
                   </div>
-                  <step.icon className="w-8 h-8 text-primary mb-4" />
-                  <h4 className="text-lg font-bold text-foreground mb-2">{step.title}</h4>
-                  <p className="text-sm text-muted-foreground">{step.description}</p>
+
+                  {/* Icon + Title Row */}
+                  <div className="flex items-center gap-3 mb-2">
+                    <step.icon className="w-6 h-6 text-primary flex-shrink-0" />
+                    <h4 className="text-lg font-bold text-foreground leading-tight">{step.title}</h4>
+                  </div>
+
+                  {/* Description */}
+                  <p className="text-sm text-muted-foreground mt-1">{step.description}</p>
                 </div>
                 {index < steps.length - 1 && (
                   <div className="hidden lg:block absolute top-1/2 -right-3 w-6 h-0.5 bg-border" />

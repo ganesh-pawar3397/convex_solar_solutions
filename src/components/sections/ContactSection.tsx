@@ -10,6 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { MapPin, Phone, Mail, MessageCircle, Clock, Send, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { addInquiry } from "@/lib/supabaseService";
@@ -146,6 +147,7 @@ const ContactSection = () => {
                 <div className="space-y-2">
                   <Label htmlFor="name">Full Name *</Label>
                   <Input
+                    className="border-black"
                     id="name"
                     placeholder="Ganesh Pawar"
                     value={formData.name}
@@ -156,6 +158,7 @@ const ContactSection = () => {
                 <div className="space-y-2">
                   <Label htmlFor="phone">Phone Number *</Label>
                   <Input
+                    className="border-black"
                     id="phone"
                     type="tel"
                     placeholder="+91 98765 43210"
@@ -169,6 +172,7 @@ const ContactSection = () => {
               <div className="space-y-2">
                 <Label htmlFor="email">Email Address (Optional)</Label>
                 <Input
+                  className="border-black"
                   id="email"
                   type="email"
                   placeholder="ganesh.pawar@example.com"
@@ -180,6 +184,7 @@ const ContactSection = () => {
               <div className="space-y-2">
                 <Label htmlFor="address">Address / City (Optional)</Label>
                 <Input
+                  className="border-black"
                   id="address"
                   placeholder="e.g. Pipeline Road, Ahmednagar"
                   value={formData.address}
@@ -193,7 +198,7 @@ const ContactSection = () => {
                   value={formData.energyNeeds}
                   onValueChange={(value) => setFormData({ ...formData, energyNeeds: value })}
                 >
-                  <SelectTrigger id="energyNeeds">
+                  <SelectTrigger id="energyNeeds" className="border-black">
                     <SelectValue placeholder="Select requirement" />
                   </SelectTrigger>
                   <SelectContent>
@@ -208,6 +213,7 @@ const ContactSection = () => {
               <div className="space-y-2">
                 <Label htmlFor="message">Message (Optional)</Label>
                 <Textarea
+                  className="border-black"
                   id="message"
                   placeholder="Tell us about your requirements..."
                   value={formData.message}
@@ -240,7 +246,7 @@ const ContactSection = () => {
           <div className="space-y-6">
             {/* WhatsApp CTA */}
             <div className="bg-primary rounded-2xl p-6 text-center">
-              <MessageCircle className="w-10 h-10 text-primary-foreground mx-auto mb-3" />
+              <WhatsAppIcon className="w-10 h-10 text-primary-foreground mx-auto mb-3" />
               <h3 className="text-lg font-bold text-primary-foreground mb-2">
                 Quick Support on WhatsApp
               </h3>
@@ -248,41 +254,41 @@ const ContactSection = () => {
                 Chat with our solar experts instantly!
               </p>
               <Button variant="hero" onClick={handleWhatsApp}>
-                <MessageCircle className="w-4 h-4 mr-2" />
+                <WhatsAppIcon className="w-4 h-4 mr-2" />
                 Chat on WhatsApp
               </Button>
             </div>
 
             {/* Contact Cards */}
-            <div className="grid grid-cols-2 gap-4">
-              <div className="card-elevated p-5">
-                <Phone className="w-6 h-6 text-primary mb-2" />
-                <h4 className="font-semibold text-foreground text-sm mb-1">Phone</h4>
-                <a href={`tel:+${businessPhone}`} className="text-muted-foreground text-sm hover:text-primary">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="card-elevated p-6 bg-secondary/30 border-primary/10">
+                <Phone className="w-8 h-8 text-primary mb-3" />
+                <h4 className="font-bold text-foreground text-base mb-1">Phone</h4>
+                <a href={`tel:+${businessPhone}`} className="text-foreground text-lg font-bold hover:text-primary transition-colors block">
                   {formatPhone(businessPhone)}
                 </a>
               </div>
 
-              <div className="card-elevated p-5">
-                <Mail className="w-6 h-6 text-primary mb-2" />
-                <h4 className="font-semibold text-foreground text-sm mb-1">Email</h4>
-                <a href={`mailto:${businessEmail}`} className="text-muted-foreground text-sm hover:text-primary">
+              <div className="card-elevated p-6 bg-secondary/30 border-primary/10">
+                <Mail className="w-8 h-8 text-primary mb-3" />
+                <h4 className="font-bold text-foreground text-base mb-1">Email</h4>
+                <a href={`mailto:${businessEmail}`} className="text-foreground text-base font-bold break-all hover:text-primary transition-colors block">
                   {businessEmail}
                 </a>
               </div>
 
-              <div className="card-elevated p-5">
-                <MapPin className="w-6 h-6 text-primary mb-2" />
-                <h4 className="font-semibold text-foreground text-sm mb-1">Office</h4>
-                <p className="text-muted-foreground text-xs">
+              <div className="card-elevated p-6 bg-secondary/30 border-primary/10">
+                <MapPin className="w-8 h-8 text-primary mb-3" />
+                <h4 className="font-bold text-foreground text-base mb-1">Office</h4>
+                <p className="text-foreground text-base font-medium">
                   {businessAddress}
                 </p>
               </div>
 
-              <div className="card-elevated p-5">
-                <Clock className="w-6 h-6 text-primary mb-2" />
-                <h4 className="font-semibold text-foreground text-sm mb-1">Hours</h4>
-                <p className="text-muted-foreground text-xs">
+              <div className="card-elevated p-6 bg-secondary/30 border-primary/10">
+                <Clock className="w-8 h-8 text-primary mb-3" />
+                <h4 className="font-bold text-foreground text-base mb-1">Hours</h4>
+                <p className="text-foreground text-base font-medium">
                   {businessHours}
                 </p>
               </div>
