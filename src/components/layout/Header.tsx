@@ -41,11 +41,11 @@ const Header = () => {
                 className="h-full w-full object-contain"
               />
             </div>
-            <div className="hidden sm:flex flex-col">
-              <span className={`text-xl font-bold leading-tight ${isScrolled ? "text-foreground" : "text-primary-foreground"}`}>
+            <div className="flex flex-col">
+              <span className={`text-lg sm:text-xl font-bold leading-tight ${isScrolled ? "text-foreground" : "text-primary-foreground"}`}>
                 Convex Solar Solutions
               </span>
-              <span className={`text-xs italic ${isScrolled ? "text-muted-foreground" : "text-primary-foreground/70"}`}>
+              <span className={`text-[10px] sm:text-xs italic ${isScrolled ? "text-muted-foreground" : "text-primary-foreground/70"}`}>
                 Illuminate your energetic life
               </span>
             </div>
